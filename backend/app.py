@@ -1,23 +1,33 @@
 import cv2
+import mediapipe as mp
 
-# Open Webcam
 cap = cv2.VideoCapture(0)
 
-if not cap.isOpened():
-    print("Error: Could not open webcam")
-    exit()
+mp_face_detection = mp.solutions.face_detection
+mp_drawing = mp.solutions.drawing_utils
+
+face_detection = mp_face_detection.FaceDetection(
+    model_selection=0,
+    min_detection_confidence=0.5
+)
 
 while True:
     success, frame = cap.read()
 
     if not success:
-        print("Failed to capture frame")
         break
+
+    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    results = face_detection.process(rgb)
+
+    if results.detections:
+        for detection in results.detections:
+            mp_drawing.draw_detection(frame, detection)
 
     cv2.imshow("Driver Drowsiness Detection", frame)
 
-    # Press Q to quit
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
 cap.release()
