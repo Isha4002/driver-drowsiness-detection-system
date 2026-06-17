@@ -1,33 +1,36 @@
+import Webcam from "react-webcam";
+
 function LiveFeed() {
-
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
 
-      <div className="flex justify-between mb-4">
+      <div className="flex justify-between items-center mb-4">
 
-        <h2 className="text-2xl font-semibold">
+        <h2 className="text-3xl font-bold">
           Live Feed
         </h2>
 
-        <span className="bg-red-600 px-3 py-1 rounded-lg">
-          REC
-        </span>
+        <div className="bg-red-600 px-4 py-2 rounded-xl font-semibold">
+          🔴 REC
+        </div>
 
       </div>
 
-      <div className="h-72 rounded-xl bg-slate-800 flex items-center justify-center">
+      <div className="overflow-hidden rounded-2xl">
 
-        <div className="text-center">
+        <Webcam
+          audio={false}
+          screenshotFormat="image/jpeg"
+          className="w-full rounded-2xl"
+        />
 
-          <div className="text-7xl mb-4">
-            📷
-          </div>
+      </div>
 
-          <p className="text-slate-400">
-            Camera Feed Coming Soon
-          </p>
+      <div className="flex justify-end mt-3">
 
-        </div>
+        <span className="text-green-400 font-semibold">
+          FPS: 28
+        </span>
 
       </div>
 
