@@ -6,6 +6,7 @@ import mediapipe as mp
 from detector import EAR, MAR
 from alarm import play_alarm
 from alert_logger import save_alert
+from state import latest_data
 
 # --------------------------------
 # Load ML Model
@@ -189,30 +190,41 @@ while True:
             right
         )
 
-        # -------------------------
-        # ML Prediction
-        # -------------------------
+       
+    # -------------------------
+    # ML Prediction
+    # -------------------------
 
-        prediction = model.predict(
-            [[ear, mar]]
-        )[0]
+    prediction = model.predict(
+        [[ear, mar]]
+    )[0]
 
-        state = prediction
+    state = prediction
 
-        # -------------------------
-        # Alarm
-        # -------------------------
+    # -------------------------
+    # Update Live Data
+    # -------------------------
 
-        if (
-            state == "Drowsy"
-            and last_state != "Drowsy"
-            ):
-            
-            play_alarm()
-            save_alert(
-                "Drowsiness Detected"
-                )
-            last_state = state
+    latest_data["ear"] = round(float(ear), 2)
+    latest_data["mar"] = round(float(mar), 2)
+    latest_data["state"] = state
+
+    # -------------------------
+    # Alarm + Alert Logging
+    # -------------------------
+
+    if (
+        state == "Drowsy"
+        and last_state != "Drowsy"
+    ):
+
+        play_alarm()
+
+        save_alert(
+            "Drowsiness Detected"
+        )
+        last_state = state
+
 
         # -------------------------
         # Display EAR
