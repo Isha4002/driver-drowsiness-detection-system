@@ -36,10 +36,27 @@ def alerts():
 
     return jsonify(data[::-1])
 
-if __name__ == "__main__":
-    app.run(debug=True)
-    
-    
+
 @app.route("/status")
 def status():
-    return jsonify(latest_data)
+
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "status.json"
+    )
+
+    if not os.path.exists(file_path):
+        return jsonify({
+            "ear": 0,
+            "mar": 0,
+            "state": "Alert"
+        })
+
+    with open(file_path, "r") as file:
+        data = json.load(file)
+
+    return jsonify(data)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

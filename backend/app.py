@@ -2,11 +2,12 @@ import os
 import cv2
 import joblib
 import mediapipe as mp
+import json
 
 from detector import EAR, MAR
 from alarm import play_alarm
 from alert_logger import save_alert
-from state import latest_data
+
 
 # --------------------------------
 # Load ML Model
@@ -191,39 +192,72 @@ while True:
         )
 
        
-    # -------------------------
-    # ML Prediction
-    # -------------------------
+         # -------------------------
+        # ML Prediction
+        # -------------------------
 
-    prediction = model.predict(
-        [[ear, mar]]
-    )[0]
+        prediction = model.predict(
+            [[ear, mar]]
+        )[0]
 
-    state = prediction
+        state = prediction
 
-    # -------------------------
-    # Update Live Data
-    # -------------------------
+        # -------------------------
+        # Save Live Status
+        # -------------------------
 
-    latest_data["ear"] = round(float(ear), 2)
-    latest_data["mar"] = round(float(mar), 2)
-    latest_data["state"] = state
+        status_data = {
+            "ear": round(float(ear), 2),
+            "mar": round(float(mar), 2),
+            "state": state
+        }
 
-    # -------------------------
-    # Alarm + Alert Logging
-    # -------------------------
+        with open("status.json", "w") as file:
+            json.dump(status_data, file)
 
-    if (
-        state == "Drowsy"
-        and last_state != "Drowsy"
-    ):
+        # -------------------------
+        # Alarm + Alert Logging
+        # -------------------------
 
-        play_alarm()
+        if (
+            state == "Drowsy"
+            and last_state != "Drowsy"
+        ):
+            play_alarm()
 
-        save_alert(
-            "Drowsiness Detected"
-        )
+            save_alert(
+                "Drowsiness Detected"
+            )
+
         last_state = state
+
+        # -------------------------
+        # Display EAR
+        # -------------------------
+
+        cv2.putText(
+            frame,
+            f"EAR: {ear:.2f}",
+            (20, 40),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.8,
+            (255, 0, 0),
+            2
+        )
+
+        # -------------------------
+        # Display MAR
+        # -------------------------
+
+        cv2.putText(
+            frame,
+            f"MAR: {mar:.2f}",
+            (20, 80),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.8,
+            (255, 0, 0),
+            2
+        )
 
 
         # -------------------------
