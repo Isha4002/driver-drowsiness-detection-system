@@ -5,31 +5,54 @@ function DriverState({ state }) {
 
   return (
     <div
-      className={`rounded-2xl p-6 border ${
+      className={`rounded-3xl p-6 border
+      ${
         isAlert
-          ? "bg-green-950 border-green-700"
-          : "bg-red-950 border-red-700"
+          ? "bg-gradient-to-br from-green-950 to-slate-900 border-green-700"
+          : "bg-gradient-to-br from-red-950 to-slate-900 border-red-700"
       }`}
     >
-      <h2 className="text-2xl font-semibold">
+
+      <h2 className="text-2xl font-bold">
         DRIVER STATE
       </h2>
 
-      <h1
-        className={`text-5xl font-bold mt-6 ${
-          isAlert
-            ? "text-green-400"
-            : "text-red-400"
-        }`}
-      >
-        {state}
-      </h1>
+      <div className="flex justify-between items-center mt-6">
 
-      <p className="mt-4 text-slate-300">
-        {isAlert
-          ? "You're good to go!"
-          : "Drowsiness Detected"}
-      </p>
+        <div>
+
+          <h1
+            className={`text-6xl font-bold
+            ${
+              isAlert
+                ? "text-green-400"
+                : "text-red-400"
+            }`}
+          >
+            {state}
+          </h1>
+
+          <p className="text-slate-400 mt-3">
+            {isAlert
+              ? "You're good to go!"
+              : "Drowsiness Detected"}
+          </p>
+
+        </div>
+
+        <div
+          className={`w-24 h-24 rounded-full flex items-center justify-center text-5xl
+          ${
+            isAlert
+              ? "bg-green-600"
+              : "bg-red-600"
+          }`}
+        >
+          {isAlert ? "✓" : "!"}
+        </div>
+
+      </div>
+
     </div>
   );
 }
