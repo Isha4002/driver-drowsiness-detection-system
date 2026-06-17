@@ -1,9 +1,10 @@
 import cv2
 import mediapipe as mp
 from detector import EAR, MAR
+from alarm import play_alarm
 
 # --------------------------
-# Face Mesh Setup
+# MediaPipe Setup
 # --------------------------
 
 mp_face_mesh = mp.solutions.face_mesh
@@ -73,25 +74,21 @@ while True:
     if results.multi_face_landmarks:
 
         face_landmarks = results.multi_face_landmarks[0]
-
         landmarks = face_landmarks.landmark
 
-        # --------------------------
-        # Left Eye
-        # --------------------------
-
+        # LEFT EYE
         left_eye = [
             get_point(landmarks, idx, w, h)
             for idx in LEFT_EYE
         ]
 
+        # RIGHT EYE
         right_eye = [
             get_point(landmarks, idx, w, h)
             for idx in RIGHT_EYE
         ]
 
-        # Draw Eye Points
-
+        # Draw eye points
         for point in left_eye:
             cv2.circle(frame, point, 2, (0, 255, 0), -1)
 
@@ -99,83 +96,47 @@ while True:
             cv2.circle(frame, point, 2, (0, 255, 0), -1)
 
         # EAR
-
         left_ear = EAR(left_eye)
         right_ear = EAR(right_eye)
 
         ear = (left_ear + right_ear) / 2
 
-        # --------------------------
-        # Mouth
-        # --------------------------
-
-        top = get_point(
-            landmarks,
-            UPPER_LIP,
-            w,
-            h
-        )
-
-        bottom = get_point(
-            landmarks,
-            LOWER_LIP,
-            w,
-            h
-        )
-
-        left = get_point(
-            landmarks,
-            LEFT_MOUTH,
-            w,
-            h
-        )
-
-        right = get_point(
-            landmarks,
-            RIGHT_MOUTH,
-            w,
-            h
-        )
+        # Mouth Points
+        top = get_point(landmarks, UPPER_LIP, w, h)
+        bottom = get_point(landmarks, LOWER_LIP, w, h)
+        left = get_point(landmarks, LEFT_MOUTH, w, h)
+        right = get_point(landmarks, RIGHT_MOUTH, w, h)
 
         cv2.circle(frame, top, 4, (0, 0, 255), -1)
         cv2.circle(frame, bottom, 4, (0, 0, 255), -1)
         cv2.circle(frame, left, 4, (0, 0, 255), -1)
         cv2.circle(frame, right, 4, (0, 0, 255), -1)
 
+        # MAR
         mar = MAR(top, bottom, left, right)
 
-        # --------------------------
-        # Eye Detection
-        # --------------------------
-
+        # Eye Closure Detection
         if ear < EAR_THRESHOLD:
             eye_counter += 1
         else:
             eye_counter = 0
 
-        # --------------------------
         # Yawning Detection
-        # --------------------------
-
         if mar > MAR_THRESHOLD:
             yawn_counter += 1
         else:
             yawn_counter = 0
 
-        # --------------------------
-        # Drowsiness Logic
-        # --------------------------
-
+        # Drowsiness State
         if eye_counter > 15:
             state = "EYES CLOSED"
+            play_alarm()
 
-        if yawn_counter > 15:
+        elif yawn_counter > 15:
             state = "YAWNING"
+            play_alarm()
 
-        # --------------------------
-        # Display Values
-        # --------------------------
-
+        # Display EAR
         cv2.putText(
             frame,
             f"EAR: {ear:.2f}",
@@ -186,6 +147,7 @@ while True:
             2
         )
 
+        # Display MAR
         cv2.putText(
             frame,
             f"MAR: {mar:.2f}",
@@ -196,6 +158,7 @@ while True:
             2
         )
 
+    # Display State
     cv2.putText(
         frame,
         state,
