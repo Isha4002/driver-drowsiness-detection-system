@@ -307,6 +307,11 @@ while True:
         color,
         3
     )
+    
+    cv2.imwrite(
+       "latest_frame.jpg",
+       frame
+    )
 
     cv2.imshow(
         "AI Driver Drowsiness Detection",

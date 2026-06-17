@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from state import latest_data
+from flask import send_file
 
 import json
 import os
@@ -56,6 +57,24 @@ def status():
         data = json.load(file)
 
     return jsonify(data)
+
+@app.route("/frame")
+def frame():
+
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "latest_frame.jpg"
+    )
+
+    if os.path.exists(file_path):
+        return send_file(
+            file_path,
+            mimetype="image/jpeg"
+        )
+
+    return jsonify({
+        "error": "No frame available"
+    })
 
 
 if __name__ == "__main__":
