@@ -1,7 +1,8 @@
 import csv
 import os
 
-FILE_NAME = "dataset.csv"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FILE_NAME = os.path.join(BASE_DIR, "dataset.csv")
 
 def save_data(ear, mar, label):
     file_exists = os.path.isfile(FILE_NAME)
