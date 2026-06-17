@@ -5,6 +5,7 @@ import mediapipe as mp
 
 from detector import EAR, MAR
 from alarm import play_alarm
+from alert_logger import save_alert
 
 # --------------------------------
 # Load ML Model
@@ -37,6 +38,8 @@ face_mesh = mp_face_mesh.FaceMesh(
 # --------------------------------
 
 cap = cv2.VideoCapture(0)
+last_state = "Alert"
+
 
 # --------------------------------
 # Landmark Indices
@@ -200,8 +203,16 @@ while True:
         # Alarm
         # -------------------------
 
-        if state == "Drowsy":
+        if (
+            state == "Drowsy"
+            and last_state != "Drowsy"
+            ):
+            
             play_alarm()
+            save_alert(
+                "Drowsiness Detected"
+                )
+            last_state = state
 
         # -------------------------
         # Display EAR
