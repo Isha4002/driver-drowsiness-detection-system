@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 from detector import EAR, MAR
 from alarm import play_alarm
+from data_collector import save_data
 
 # --------------------------
 # MediaPipe Setup
@@ -76,32 +77,35 @@ while True:
         face_landmarks = results.multi_face_landmarks[0]
         landmarks = face_landmarks.landmark
 
-        # LEFT EYE
+        # --------------------------
+        # Eyes
+        # --------------------------
+
         left_eye = [
             get_point(landmarks, idx, w, h)
             for idx in LEFT_EYE
         ]
 
-        # RIGHT EYE
         right_eye = [
             get_point(landmarks, idx, w, h)
             for idx in RIGHT_EYE
         ]
 
-        # Draw eye points
         for point in left_eye:
             cv2.circle(frame, point, 2, (0, 255, 0), -1)
 
         for point in right_eye:
             cv2.circle(frame, point, 2, (0, 255, 0), -1)
 
-        # EAR
         left_ear = EAR(left_eye)
         right_ear = EAR(right_eye)
 
         ear = (left_ear + right_ear) / 2
 
-        # Mouth Points
+        # --------------------------
+        # Mouth
+        # --------------------------
+
         top = get_point(landmarks, UPPER_LIP, w, h)
         bottom = get_point(landmarks, LOWER_LIP, w, h)
         left = get_point(landmarks, LEFT_MOUTH, w, h)
@@ -112,22 +116,30 @@ while True:
         cv2.circle(frame, left, 4, (0, 0, 255), -1)
         cv2.circle(frame, right, 4, (0, 0, 255), -1)
 
-        # MAR
         mar = MAR(top, bottom, left, right)
 
+        # --------------------------
         # Eye Closure Detection
+        # --------------------------
+
         if ear < EAR_THRESHOLD:
             eye_counter += 1
         else:
             eye_counter = 0
 
+        # --------------------------
         # Yawning Detection
+        # --------------------------
+
         if mar > MAR_THRESHOLD:
             yawn_counter += 1
         else:
             yawn_counter = 0
 
-        # Drowsiness State
+        # --------------------------
+        # Drowsiness Logic
+        # --------------------------
+
         if eye_counter > 15:
             state = "EYES CLOSED"
             play_alarm()
@@ -136,7 +148,20 @@ while True:
             state = "YAWNING"
             play_alarm()
 
-        # Display EAR
+        # --------------------------
+        # Dataset Collection
+        # --------------------------
+
+        if state == "ALERT":
+            save_data(ear, mar, "Alert")
+
+        elif state in ["EYES CLOSED", "YAWNING"]:
+            save_data(ear, mar, "Drowsy")
+
+        # --------------------------
+        # Display Values
+        # --------------------------
+
         cv2.putText(
             frame,
             f"EAR: {ear:.2f}",
@@ -147,7 +172,6 @@ while True:
             2
         )
 
-        # Display MAR
         cv2.putText(
             frame,
             f"MAR: {mar:.2f}",
@@ -158,7 +182,10 @@ while True:
             2
         )
 
+    # --------------------------
     # Display State
+    # --------------------------
+
     cv2.putText(
         frame,
         state,
