@@ -1,12 +1,27 @@
+import os
 import cv2
+import joblib
 import mediapipe as mp
+
 from detector import EAR, MAR
 from alarm import play_alarm
-from data_collector import save_data
 
-# --------------------------
+# --------------------------------
+# Load ML Model
+# --------------------------------
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+MODEL_PATH = os.path.join(
+    BASE_DIR,
+    "model.pkl"
+)
+
+model = joblib.load(MODEL_PATH)
+
+# --------------------------------
 # MediaPipe Setup
-# --------------------------
+# --------------------------------
 
 mp_face_mesh = mp.solutions.face_mesh
 
@@ -17,15 +32,15 @@ face_mesh = mp_face_mesh.FaceMesh(
     min_tracking_confidence=0.5
 )
 
-# --------------------------
+# --------------------------------
 # Webcam
-# --------------------------
+# --------------------------------
 
 cap = cv2.VideoCapture(0)
 
-# --------------------------
+# --------------------------------
 # Landmark Indices
-# --------------------------
+# --------------------------------
 
 LEFT_EYE = [33, 160, 158, 133, 153, 144]
 RIGHT_EYE = [362, 385, 387, 263, 373, 380]
@@ -35,27 +50,20 @@ LOWER_LIP = 14
 LEFT_MOUTH = 78
 RIGHT_MOUTH = 308
 
-# --------------------------
-# Thresholds
-# --------------------------
-
-EAR_THRESHOLD = 0.20
-MAR_THRESHOLD = 0.65
-
-eye_counter = 0
-yawn_counter = 0
-
-# --------------------------
+# --------------------------------
 # Helper Function
-# --------------------------
+# --------------------------------
 
 def get_point(landmarks, index, w, h):
     point = landmarks[index]
-    return (int(point.x * w), int(point.y * h))
+    return (
+        int(point.x * w),
+        int(point.y * h)
+    )
 
-# --------------------------
+# --------------------------------
 # Main Loop
-# --------------------------
+# --------------------------------
 
 while True:
 
@@ -66,101 +74,138 @@ while True:
 
     h, w, _ = frame.shape
 
-    rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    rgb = cv2.cvtColor(
+        frame,
+        cv2.COLOR_BGR2RGB
+    )
 
     results = face_mesh.process(rgb)
 
-    state = "ALERT"
+    state = "Alert"
 
     if results.multi_face_landmarks:
 
-        face_landmarks = results.multi_face_landmarks[0]
-        landmarks = face_landmarks.landmark
+        face_landmarks = (
+            results.multi_face_landmarks[0]
+        )
 
-        # --------------------------
-        # Eyes
-        # --------------------------
+        landmarks = (
+            face_landmarks.landmark
+        )
+
+        # -------------------------
+        # Eye Points
+        # -------------------------
 
         left_eye = [
-            get_point(landmarks, idx, w, h)
+            get_point(
+                landmarks,
+                idx,
+                w,
+                h
+            )
             for idx in LEFT_EYE
         ]
 
         right_eye = [
-            get_point(landmarks, idx, w, h)
+            get_point(
+                landmarks,
+                idx,
+                w,
+                h
+            )
             for idx in RIGHT_EYE
         ]
 
         for point in left_eye:
-            cv2.circle(frame, point, 2, (0, 255, 0), -1)
+            cv2.circle(
+                frame,
+                point,
+                2,
+                (0, 255, 0),
+                -1
+            )
 
         for point in right_eye:
-            cv2.circle(frame, point, 2, (0, 255, 0), -1)
+            cv2.circle(
+                frame,
+                point,
+                2,
+                (0, 255, 0),
+                -1
+            )
 
         left_ear = EAR(left_eye)
         right_ear = EAR(right_eye)
 
-        ear = (left_ear + right_ear) / 2
+        ear = (
+            left_ear + right_ear
+        ) / 2
 
-        # --------------------------
-        # Mouth
-        # --------------------------
+        # -------------------------
+        # Mouth Points
+        # -------------------------
 
-        top = get_point(landmarks, UPPER_LIP, w, h)
-        bottom = get_point(landmarks, LOWER_LIP, w, h)
-        left = get_point(landmarks, LEFT_MOUTH, w, h)
-        right = get_point(landmarks, RIGHT_MOUTH, w, h)
+        top = get_point(
+            landmarks,
+            UPPER_LIP,
+            w,
+            h
+        )
 
-        cv2.circle(frame, top, 4, (0, 0, 255), -1)
-        cv2.circle(frame, bottom, 4, (0, 0, 255), -1)
-        cv2.circle(frame, left, 4, (0, 0, 255), -1)
-        cv2.circle(frame, right, 4, (0, 0, 255), -1)
+        bottom = get_point(
+            landmarks,
+            LOWER_LIP,
+            w,
+            h
+        )
 
-        mar = MAR(top, bottom, left, right)
+        left = get_point(
+            landmarks,
+            LEFT_MOUTH,
+            w,
+            h
+        )
 
-        # --------------------------
-        # Eye Closure Detection
-        # --------------------------
+        right = get_point(
+            landmarks,
+            RIGHT_MOUTH,
+            w,
+            h
+        )
 
-        if ear < EAR_THRESHOLD:
-            eye_counter += 1
-        else:
-            eye_counter = 0
+        cv2.circle(frame, top, 4, (0,0,255), -1)
+        cv2.circle(frame, bottom, 4, (0,0,255), -1)
+        cv2.circle(frame, left, 4, (0,0,255), -1)
+        cv2.circle(frame, right, 4, (0,0,255), -1)
 
-        # --------------------------
-        # Yawning Detection
-        # --------------------------
+        mar = MAR(
+            top,
+            bottom,
+            left,
+            right
+        )
 
-        if mar > MAR_THRESHOLD:
-            yawn_counter += 1
-        else:
-            yawn_counter = 0
+        # -------------------------
+        # ML Prediction
+        # -------------------------
 
-        # --------------------------
-        # Drowsiness Logic
-        # --------------------------
+        prediction = model.predict(
+            [[ear, mar]]
+        )[0]
 
-        if eye_counter > 15:
-            state = "EYES CLOSED"
+        state = prediction
+
+        # -------------------------
+        # Alarm
+        # -------------------------
+
+        if state == "Drowsy":
             play_alarm()
 
-        elif yawn_counter > 15:
-            state = "YAWNING"
-            play_alarm()
-
-        # --------------------------
-        # Dataset Collection
-        # --------------------------
-
-        if state == "ALERT":
-            save_data(ear, mar, "Alert")
-
-        elif state in ["EYES CLOSED", "YAWNING"]:
-            save_data(ear, mar, "Drowsy")
-
-        # --------------------------
-        # Display Values
-        # --------------------------
+        # -------------------------
+        # Display EAR
+        # -------------------------
 
         cv2.putText(
             frame,
@@ -172,6 +217,10 @@ while True:
             2
         )
 
+        # -------------------------
+        # Display MAR
+        # -------------------------
+
         cv2.putText(
             frame,
             f"MAR: {mar:.2f}",
@@ -182,26 +231,36 @@ while True:
             2
         )
 
-    # --------------------------
+    # -------------------------
     # Display State
-    # --------------------------
+    # -------------------------
+
+    color = (
+        (0, 255, 0)
+        if state == "Alert"
+        else (0, 0, 255)
+    )
 
     cv2.putText(
         frame,
-        state,
+        f"STATE: {state}",
         (20, 130),
         cv2.FONT_HERSHEY_SIMPLEX,
         1,
-        (0, 0, 255),
+        color,
         3
     )
 
     cv2.imshow(
-        "Driver Drowsiness Detection",
+        "AI Driver Drowsiness Detection",
         frame
     )
 
-    if cv2.waitKey(1) & 0xFF == ord("q"):
+    if (
+        cv2.waitKey(1)
+        & 0xFF
+        == ord("q")
+    ):
         break
 
 cap.release()

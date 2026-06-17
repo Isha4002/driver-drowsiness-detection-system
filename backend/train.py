@@ -10,65 +10,67 @@ from sklearn.metrics import (
     confusion_matrix
 )
 
-# -----------------------------
+# --------------------------------
 # Load Dataset
-# -----------------------------
+# --------------------------------
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-csv_path = os.path.join(
+DATASET_PATH = os.path.join(
     BASE_DIR,
     "dataset.csv"
 )
 
-data = pd.read_csv(csv_path)
+data = pd.read_csv(DATASET_PATH)
 
-print("\nDataset Preview:")
+print("\nDataset Shape:")
+print(data.shape)
+
+print("\nFirst 5 Rows:")
 print(data.head())
 
-# -----------------------------
-# Features and Labels
-# -----------------------------
+# --------------------------------
+# Features & Labels
+# --------------------------------
 
 X = data[["EAR", "MAR"]]
 y = data["LABEL"]
 
-# -----------------------------
+# --------------------------------
 # Train Test Split
-# -----------------------------
+# --------------------------------
 
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
     test_size=0.2,
-    random_state=42,
-    stratify=y
+    random_state=42
 )
 
-# -----------------------------
-# Model
-# -----------------------------
+# --------------------------------
+# Random Forest
+# --------------------------------
 
 model = RandomForestClassifier(
     n_estimators=100,
     random_state=42
 )
 
-# -----------------------------
-# Training
-# -----------------------------
+# --------------------------------
+# Train
+# --------------------------------
 
 model.fit(X_train, y_train)
 
-# -----------------------------
-# Prediction
-# -----------------------------
+# --------------------------------
+# Predict
+# --------------------------------
 
 predictions = model.predict(X_test)
 
-# -----------------------------
+# --------------------------------
 # Evaluation
-# -----------------------------
+# --------------------------------
 
 accuracy = accuracy_score(
     y_test,
@@ -94,19 +96,19 @@ print(
     )
 )
 
-# -----------------------------
+# --------------------------------
 # Save Model
-# -----------------------------
+# --------------------------------
 
-model_path = os.path.join(
+MODEL_PATH = os.path.join(
     BASE_DIR,
     "model.pkl"
 )
 
 joblib.dump(
     model,
-    model_path
+    MODEL_PATH
 )
 
-print("\n✅ Model saved successfully!")
-print(f"Location: {model_path}")
+print("\n✅ Model Saved")
+print(MODEL_PATH)
