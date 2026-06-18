@@ -1,39 +1,29 @@
-import Webcam from "react-webcam";
+import { useEffect, useState } from "react";
 
 function LiveFeed() {
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setImageUrl(
+        `http://127.0.0.1:5000/frame?t=${Date.now()}`
+      );
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+    <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
+      <h2 className="text-2xl font-bold mb-4">
+        Live Feed
+      </h2>
 
-      <div className="flex justify-between items-center mb-4">
-
-        <h2 className="text-3xl font-bold">
-          Live Feed
-        </h2>
-
-        <div className="bg-red-600 px-4 py-2 rounded-xl font-semibold">
-          🔴 REC
-        </div>
-
-      </div>
-
-      <div className="overflow-hidden rounded-2xl">
-
-        <Webcam
-          audio={false}
-          screenshotFormat="image/jpeg"
-          className="w-full rounded-2xl"
-        />
-
-      </div>
-
-      <div className="flex justify-end mt-3">
-
-        <span className="text-green-400 font-semibold">
-          FPS: 28
-        </span>
-
-      </div>
-
+      <img
+        src={imageUrl}
+        alt="Live Feed"
+        className="w-full rounded-xl"
+      />
     </div>
   );
 }

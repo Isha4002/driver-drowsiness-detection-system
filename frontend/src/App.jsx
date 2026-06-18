@@ -9,6 +9,7 @@ import StatsPanel from "./components/StatsPanel";
 
 import LiveFeed from "./components/LiveFeed";
 import AlertPanel from "./components/AlertPanel";
+import AlertCountCard from "./components/AlertCountCard";
 
 function App() {
   return (
@@ -37,6 +38,8 @@ function App() {
           <DriverState
             state="ALERT"
           />
+
+           <AlertCountCard />
 
           <StatsPanel />
 

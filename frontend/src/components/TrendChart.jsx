@@ -1,43 +1,74 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import {
   LineChart,
   Line,
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer,
-  CartesianGrid
+  ResponsiveContainer
 } from "recharts";
 
 function TrendChart() {
 
-  const data = [
-    { time: "60s", ear: 0.35, mar: 0.12 },
-    { time: "45s", ear: 0.32, mar: 0.18 },
-    { time: "30s", ear: 0.37, mar: 0.10 },
-    { time: "15s", ear: 0.40, mar: 0.24 },
-    { time: "Now", ear: 0.34, mar: 0.20 }
-  ];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+
+    const fetchHistory = () => {
+
+      axios
+        .get("http://127.0.0.1:5000/history")
+        .then((res) => {
+
+          const formatted =
+            res.data.map(
+              (item, index) => ({
+                time: index + 1,
+                ear: item.ear,
+                mar: item.mar
+              })
+            );
+
+          setData(formatted);
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+    };
+
+    fetchHistory();
+
+    const interval = setInterval(
+      fetchHistory,
+      1000
+    );
+
+    return () =>
+      clearInterval(interval);
+
+  }, []);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
 
-      <h2 className="text-2xl font-semibold mb-4">
+      <h2 className="text-3xl font-bold mb-4">
         EAR & MAR Trends
       </h2>
 
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer
+        width="100%"
+        height={350}
+      >
+
         <LineChart data={data}>
 
-          <CartesianGrid stroke="#1e293b" />
+          <XAxis dataKey="time" />
 
-          <XAxis
-            dataKey="time"
-            stroke="#94a3b8"
-          />
-
-          <YAxis
-            stroke="#94a3b8"
-          />
+          <YAxis />
 
           <Tooltip />
 
@@ -56,6 +87,7 @@ function TrendChart() {
           />
 
         </LineChart>
+
       </ResponsiveContainer>
 
     </div>
