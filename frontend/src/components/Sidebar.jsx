@@ -7,7 +7,44 @@ import {
   FaInfoCircle
 } from "react-icons/fa";
 
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 function Sidebar() {
+
+  const [stats, setStats] = useState({
+    online: true,
+    model: "Active",
+    alerts: 0,
+    uptime: "00:00:00"
+  });
+
+  useEffect(() => {
+
+    const fetchStats = () => {
+
+      axios
+        .get("http://127.0.0.1:5000/stats")
+        .then((res) => {
+          setStats(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+    };
+
+    fetchStats();
+
+    const interval = setInterval(
+      fetchStats,
+      1000
+    );
+
+    return () => clearInterval(interval);
+
+  }, []);
+
   return (
     <aside className="w-64 min-h-screen bg-slate-950 border-r border-slate-800 flex flex-col justify-between">
 
@@ -15,7 +52,10 @@ function Sidebar() {
 
         {/* Logo */}
         <div className="p-6 text-center border-b border-slate-800">
-          <div className="text-6xl mb-3">🚗</div>
+
+          <div className="text-6xl mb-3">
+            🚗
+          </div>
 
           <h1 className="text-2xl font-bold">
             DROWSINESS
@@ -24,6 +64,7 @@ function Sidebar() {
           <p className="text-slate-400">
             DETECTION
           </p>
+
         </div>
 
         {/* Menu */}
@@ -63,64 +104,58 @@ function Sidebar() {
 
       </div>
 
-      {/* Bottom Status */}
-<div className="m-4 bg-slate-900 border border-slate-800 rounded-2xl p-5">
+      {/* Bottom Stats */}
+      <div className="m-4 bg-slate-900 border border-slate-800 rounded-2xl p-5">
 
-  <div className="mb-5">
-    <p className="text-slate-400 text-sm">
-      System Status
-    </p>
+        <div className="mb-5">
 
-    <p className="text-green-400 font-semibold text-xl">
-      ● Online
-    </p>
-  </div>
+          <p className="text-slate-400 text-sm">
+            System Status
+          </p>
 
-  <div className="mb-5">
-    <p className="text-slate-400 text-sm">
-      Model Status
-    </p>
+          <p className="text-green-400 font-semibold text-xl">
+            ● {stats.online ? "Online" : "Offline"}
+          </p>
 
-    <p className="text-green-400 font-semibold text-xl">
-      Active
-    </p>
-  </div>
+        </div>
 
-  <div className="mb-5">
-    <p className="text-slate-400 text-sm">
-      Monitoring Time
-    </p>
+        <div className="mb-5">
 
-    <p className="font-semibold">
-      00:15:42
-    </p>
-  </div>
+          <p className="text-slate-400 text-sm">
+            Model Status
+          </p>
 
-  <div className="mb-5">
-    <p className="text-slate-400 text-sm">
-      Drowsy Episodes
-    </p>
+          <p className="text-green-400 font-semibold text-xl">
+            {stats.model}
+          </p>
 
-    <p className="font-semibold">
-      9
-    </p>
-  </div>
+        </div>
 
-  <div className="mb-5">
-    <p className="text-slate-400 text-sm">
-      Confidence
-    </p>
+        <div className="mb-5">
 
-    <h2 className="text-4xl font-bold text-blue-400">
-      94.6%
-    </h2>
+          <p className="text-slate-400 text-sm">
+            Monitoring Time
+          </p>
 
-    <div className="w-full h-2 bg-slate-700 rounded-full mt-3">
-      <div className="w-[95%] h-2 bg-blue-500 rounded-full"></div>
-    </div>
-  </div>
+          <p className="font-semibold text-white text-lg">
+            {stats.uptime}
+          </p>
 
-</div>
+        </div>
+
+        <div>
+
+          <p className="text-slate-400 text-sm">
+            Drowsy Episodes
+          </p>
+
+          <h2 className="text-4xl font-bold text-red-400 mt-2">
+            {stats.alerts}
+          </h2>
+
+        </div>
+
+      </div>
 
     </aside>
   );

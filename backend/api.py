@@ -114,5 +114,45 @@ def history():
     return jsonify(data)
 
 
+@app.route("/stats")
+def stats():
+
+    alert_count = 0
+
+    alerts_path = os.path.join(
+        os.path.dirname(__file__),
+        "alerts.json"
+    )
+
+    if os.path.exists(alerts_path):
+        with open(alerts_path, "r") as file:
+            alerts = json.load(file)
+
+        alert_count = len(alerts)
+
+    status_path = os.path.join(
+        os.path.dirname(__file__),
+        "status.json"
+    )
+
+    uptime = "00:00:00"
+
+    if os.path.exists(status_path):
+        with open(status_path, "r") as file:
+            status = json.load(file)
+
+        uptime = status.get(
+            "uptime",
+            "00:00:00"
+        )
+
+    return jsonify({
+        "online": True,
+        "model": "Active",
+        "alerts": alert_count,
+        "uptime": uptime
+    })
+
+
 if __name__ == "__main__":
     app.run(debug=True)

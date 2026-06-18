@@ -8,6 +8,9 @@ from detector import EAR, MAR
 from alarm import play_alarm
 from alert_logger import save_alert
 from datetime import datetime
+from time import time
+
+start_time = time()
 
 
 # --------------------------------
@@ -42,6 +45,8 @@ face_mesh = mp_face_mesh.FaceMesh(
 
 cap = cv2.VideoCapture(0)
 last_state = "Alert"
+closed_frames = 0
+start_time = time()
 
 
 # --------------------------------
@@ -201,29 +206,42 @@ while True:
             closed_frames += 1
         else:
             closed_frames = 0
-            if closed_frames > 15:
-                state = "Drowsy"
-            else:
-                state = "Alert"
+            
+        if closed_frames > 15:
+            state = "Drowsy"
+        else:
+            state = "Alert"
                 
-            print(
-                "EAR:",
-                round(ear, 2),
-                "Frames:",
-                closed_frames,
-                "State:",
-                state
-            )
+        print(
+            "EAR:",
+            round(ear, 2),
+            "Frames:",
+            closed_frames,
+            "State:",
+            state
+         )
         # -------------------------
         # Save Live Status
         # -------------------------
 
+        elapsed = int(time() - start_time)
+        hours = elapsed // 3600
+        minutes = (elapsed % 3600) // 60
+        seconds = elapsed % 60
+        
+        uptime = (
+            f"{hours:02d}:"
+            f"{minutes:02d}:"
+            f"{seconds:02d}"
+        )
+        
         status_data = {
             "ear": round(float(ear), 2),
             "mar": round(float(mar), 2),
-            "state": state
+            "state": state,
+            "uptime": uptime
         }
-
+        
         with open("status.json", "w") as file:
             json.dump(status_data, file)
             
