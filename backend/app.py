@@ -215,27 +215,63 @@ while True:
 
         with open("status.json", "w") as file:
             json.dump(status_data, file)
+            
+            
+            
+        # -------------------------
+        # Save History
+        # -------------------------
+
+        history_entry = {
+            "ear": round(float(ear), 2),
+            "mar": round(float(mar), 2)
+        }
+        history_path = os.path.join(
+            BASE_DIR,
+            "history.json"
+        )
+        
+        if os.path.exists(history_path):
+            
+            try:
+                with open(history_path, "r") as file:
+                  history = json.load(file)
+            except:
+                history = []
+                
+        else:
+            history = []
+            
+        history.append(history_entry)
+        
+        history = history[-20:]
+        
+        with open(history_path, "w") as file:
+          json.dump(history, file)
+          
+          print("History Saved:", len(history))
+                    
 
         # -------------------------
         # Alarm + Alert Logging
         # -------------------------
 
-        if (
-    state == "Drowsy"
-    and last_state != "Drowsy"
-):
-            play_alarm()
-            save_alert(
-                "Drowsiness Detected"
-                )
-            timestamp = datetime.now().strftime(
-                "%Y%m%d_%H%M%S"
-                )
-            cv2.imwrite(
-        f"screenshots/{timestamp}.jpg",
-        frame
-    )
-            last_state = state
+    if (
+        state == "Drowsy"
+        and last_state != "Drowsy"
+        ):
+        
+        play_alarm()
+        save_alert("Drowsiness Detected")
+        timestamp = datetime.now().strftime(
+            "%Y%m%d_%H%M%S"
+        )
+        cv2.imwrite(
+            f"screenshots/{timestamp}.jpg",
+            frame
+            )
+        
+        last_state = state
         # -------------------------
         # Display EAR
         # -------------------------
@@ -284,10 +320,16 @@ while True:
         color,
         3
     )
+    frame_path = os.path.join(
+        BASE_DIR,
+        "latest_frame.jpg"
+    )
     
+    print("Saving:", frame_path)
+
     cv2.imwrite(
-       "latest_frame.jpg",
-       frame
+        frame_path,
+        frame
     )
 
     cv2.imshow(

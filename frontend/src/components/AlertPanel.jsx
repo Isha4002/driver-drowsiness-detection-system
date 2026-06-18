@@ -32,17 +32,23 @@ function AlertPanel() {
   }, []);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
 
-      <div className="flex justify-between mb-5">
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 h-[560px] flex flex-col">
+
+      <div className="flex justify-between items-center mb-5">
 
         <h2 className="text-3xl font-bold">
           Recent Alerts
         </h2>
 
+        <span className="text-slate-400">
+          {alerts.length} Alerts
+        </span>
+
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 overflow-y-auto flex-1 pr-2">
+
 
         {alerts.length === 0 ? (
 
@@ -56,12 +62,21 @@ function AlertPanel() {
 
             <div
               key={index}
-              className="bg-slate-800 p-4 rounded-2xl flex justify-between"
+              className="
+                bg-slate-800
+                hover:bg-slate-700
+                transition
+                p-4
+                rounded-2xl
+                flex
+                justify-between
+                items-center
+              "
             >
 
               <div>
 
-                <h3 className="font-semibold text-red-400">
+                <h3 className="font-semibold text-red-400 text-lg">
                   {alert.event}
                 </h3>
 
@@ -71,9 +86,13 @@ function AlertPanel() {
 
               </div>
 
-              <span className="text-slate-400">
-                {alert.time}
-              </span>
+              <div className="text-right">
+
+                <p className="text-slate-300 font-medium">
+                  {alert.time}
+                </p>
+
+              </div>
 
             </div>
 
@@ -84,6 +103,7 @@ function AlertPanel() {
       </div>
 
     </div>
+
   );
 }
 

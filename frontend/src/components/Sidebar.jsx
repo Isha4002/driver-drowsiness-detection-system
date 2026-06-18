@@ -64,43 +64,63 @@ function Sidebar() {
       </div>
 
       {/* Bottom Status */}
-      <div className="m-4 bg-slate-900 border border-slate-800 rounded-2xl p-4">
+<div className="m-4 bg-slate-900 border border-slate-800 rounded-2xl p-5">
 
-        <div className="mb-5">
-          <p className="text-slate-400 text-sm">
-            System Status
-          </p>
+  <div className="mb-5">
+    <p className="text-slate-400 text-sm">
+      System Status
+    </p>
 
-          <p className="text-green-400 font-semibold">
-            ● Online
-          </p>
-        </div>
+    <p className="text-green-400 font-semibold text-xl">
+      ● Online
+    </p>
+  </div>
 
-        <div className="mb-5">
-          <p className="text-slate-400 text-sm">
-            Model Status
-          </p>
+  <div className="mb-5">
+    <p className="text-slate-400 text-sm">
+      Model Status
+    </p>
 
-          <p className="text-green-400 font-semibold">
-            Active
-          </p>
-        </div>
+    <p className="text-green-400 font-semibold text-xl">
+      Active
+    </p>
+  </div>
 
-        <div>
-          <p className="text-slate-400 text-sm mb-2">
-            Confidence
-          </p>
+  <div className="mb-5">
+    <p className="text-slate-400 text-sm">
+      Monitoring Time
+    </p>
 
-          <h2 className="text-3xl font-bold text-blue-400">
-            94.6%
-          </h2>
+    <p className="font-semibold">
+      00:15:42
+    </p>
+  </div>
 
-          <div className="w-full h-2 bg-slate-700 rounded-full mt-3">
-            <div className="w-[95%] h-2 bg-blue-500 rounded-full"></div>
-          </div>
-        </div>
+  <div className="mb-5">
+    <p className="text-slate-400 text-sm">
+      Drowsy Episodes
+    </p>
 
-      </div>
+    <p className="font-semibold">
+      9
+    </p>
+  </div>
+
+  <div className="mb-5">
+    <p className="text-slate-400 text-sm">
+      Confidence
+    </p>
+
+    <h2 className="text-4xl font-bold text-blue-400">
+      94.6%
+    </h2>
+
+    <div className="w-full h-2 bg-slate-700 rounded-full mt-3">
+      <div className="w-[95%] h-2 bg-blue-500 rounded-full"></div>
+    </div>
+  </div>
+
+</div>
 
     </aside>
   );

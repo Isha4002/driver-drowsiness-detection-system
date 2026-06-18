@@ -53,7 +53,7 @@ function TrendChart() {
   }, []);
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 h-[560px]">
 
       <h2 className="text-3xl font-bold mb-4">
         EAR & MAR Trends
