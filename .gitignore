@@ -11,8 +11,21 @@ __pycache__/
 # ML Models
 *.pkl
 
-# VS Code Settings
+# VS Code
 .vscode/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Runtime Files
+alerts.json
+history.json
+status.json
+latest_frame.jpg
+
+# Screenshots
+screenshots/
 
 # OS Files
 .DS_Store
