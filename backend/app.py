@@ -197,12 +197,23 @@ while True:
         # ML Prediction
         # -------------------------
 
-        prediction = model.predict(
-            [[ear, mar]]
-        )[0]
-
-        state = prediction
-
+        if ear < 0.20:
+            closed_frames += 1
+        else:
+            closed_frames = 0
+            if closed_frames > 15:
+                state = "Drowsy"
+            else:
+                state = "Alert"
+                
+            print(
+                "EAR:",
+                round(ear, 2),
+                "Frames:",
+                closed_frames,
+                "State:",
+                state
+            )
         # -------------------------
         # Save Live Status
         # -------------------------
