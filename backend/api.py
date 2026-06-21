@@ -152,6 +152,46 @@ def stats():
         "alerts": alert_count,
         "uptime": uptime
     })
+    
+    
+@app.route("/screenshots")
+def screenshots():
+
+    folder = os.path.join(
+        os.path.dirname(__file__),
+        "screenshots"
+    )
+
+    if not os.path.exists(folder):
+        return jsonify([])
+
+    files = []
+
+    for file in os.listdir(folder):
+
+        if (
+            file.endswith(".jpg")
+            or file.endswith(".png")
+        ):
+            files.append(file)
+
+    files.sort(reverse=True)
+
+    return jsonify(files)
+
+@app.route("/screenshot/<filename>")
+def screenshot(filename):
+
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "screenshots",
+        filename
+    )
+
+    return send_file(
+        file_path,
+        mimetype="image/jpeg"
+    )
 
 
 if __name__ == "__main__":

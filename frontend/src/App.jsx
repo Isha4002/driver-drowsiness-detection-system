@@ -12,6 +12,8 @@ import LiveFeed from "./components/LiveFeed";
 import AlertPanel from "./components/AlertPanel";
 import AlertCountCard from "./components/AlertCountCard";
 
+import ScreenshotGallery from "./components/ScreenshotGallery";
+
 function App() {
 
   const [status, setStatus] = useState({
@@ -96,6 +98,10 @@ function App() {
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 mt-6">
 
           <LiveFeed />
+
+          <div className="mt-6">
+  <ScreenshotGallery />
+</div>
 
           <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
 

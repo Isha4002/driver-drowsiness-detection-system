@@ -1,5 +1,7 @@
 function DriverState({ state }) {
 
+  console.log("DriverState Received:", state);
+
   const isAlert =
     state?.toLowerCase() === "alert";
 
