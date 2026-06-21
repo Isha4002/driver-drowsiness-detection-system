@@ -250,6 +250,21 @@ def analytics():
             1
         )
     })
+    
+@app.route("/clear-alerts", methods=["POST"])
+def clear_alerts():
+
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "alerts.json"
+    )
+
+    with open(file_path, "w") as file:
+        json.dump([], file)
+
+    return jsonify({
+        "message": "Alerts Cleared"
+    })
 
 
 if __name__ == "__main__":
