@@ -69,16 +69,21 @@ function ScreenshotGallery() {
 
       {selectedImage && (
 
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-6">
-
-          <div className="relative max-w-5xl w-full">
+       <div
+  className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-6"
+  onClick={() => setSelectedImage(null)}
+>
+          <div
+  className="relative max-w-5xl w-full"
+  onClick={(e) => e.stopPropagation()}
+>
 
             <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute -top-12 right-0 bg-red-500 px-4 py-2 rounded-lg"
-            >
-              Close
-            </button>
+  onClick={() => setSelectedImage(null)}
+  className="absolute top-12 right-4 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-white z-50"
+>
+  ✕
+</button>
 
             <a
               href={`http://127.0.0.1:5000/screenshot/${selectedImage}`}
