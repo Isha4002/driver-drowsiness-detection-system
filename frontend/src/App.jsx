@@ -160,6 +160,33 @@ function App() {
 
         )}
 
+        {/* ALERTS */}
+
+{selectedPage === "alerts" && (
+
+  <>
+    <Header />
+
+    <div className="mt-6">
+      <AlertPanel />
+    </div>
+
+  </>
+
+)}
+
+{
+  selectedPage === "history" && (
+    <>
+      <Header />
+
+      <div className="mt-6">
+        <TrendChart />
+      </div>
+    </>
+  )
+}
+
       </main>
 
     </div>
