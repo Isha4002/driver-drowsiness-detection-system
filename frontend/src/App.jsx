@@ -15,6 +15,7 @@ import AlertCountCard from "./components/AlertCountCard";
 import ScreenshotGallery from "./components/ScreenshotGallery";
 import AnalyticsPanel from "./components/AnalyticsPanel";
 import HistoryPanel from "./components/HistoryPanel";
+import ReportButton from "./components/ReportButton";
 
 function App() {
 
@@ -175,6 +176,10 @@ function App() {
   </>
 
 )}
+
+<div className="mb-6">
+  <ReportButton />
+</div>
 
 {
   selectedPage === "history" && (
