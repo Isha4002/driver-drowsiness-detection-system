@@ -126,15 +126,31 @@ function Sidebar({
   History
 </div>
 
-          <div className="hover:bg-slate-800 rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer transition">
-            <FaCog />
-            Settings
-          </div>
+          <div
+  onClick={() => setSelectedPage("settings")}
+  className={`rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer transition
+  ${
+    selectedPage === "settings"
+      ? "bg-blue-600"
+      : "hover:bg-slate-800"
+  }`}
+>
+  <FaCog />
+  Settings
+</div>
 
-          <div className="hover:bg-slate-800 rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer transition">
-            <FaInfoCircle />
-            About
-          </div>
+          <div
+  onClick={() => setSelectedPage("about")}
+  className={`rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer transition
+  ${
+    selectedPage === "about"
+      ? "bg-blue-600"
+      : "hover:bg-slate-800"
+  }`}
+>
+  <FaInfoCircle />
+  About
+</div>
 
         </nav>
 

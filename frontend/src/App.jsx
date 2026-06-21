@@ -187,6 +187,88 @@ function App() {
   )
 }
 
+{/* SETTINGS */}
+
+{selectedPage === "settings" && (
+
+  <>
+    <Header />
+
+    <div className="mt-6 bg-slate-900 p-8 rounded-2xl border border-slate-800">
+
+      <h2 className="text-3xl font-bold mb-6">
+        Settings
+      </h2>
+
+      <div className="space-y-6">
+
+        <div>
+          <label className="block text-slate-400 mb-2">
+            EAR Threshold
+          </label>
+
+          <input
+            type="number"
+            defaultValue="0.20"
+            className="bg-slate-800 p-3 rounded-xl w-full"
+          />
+        </div>
+
+        <div>
+          <label className="block text-slate-400 mb-2">
+            Alert Sound
+          </label>
+
+          <select className="bg-slate-800 p-3 rounded-xl w-full">
+            <option>Enabled</option>
+            <option>Disabled</option>
+          </select>
+        </div>
+
+      </div>
+
+    </div>
+
+  </>
+
+)}
+
+{/* ABOUT */}
+
+{selectedPage === "about" && (
+
+  <>
+    <Header />
+
+    <div className="mt-6 bg-slate-900 p-8 rounded-2xl border border-slate-800">
+
+      <h2 className="text-3xl font-bold mb-4">
+        About Project
+      </h2>
+
+      <p className="text-slate-300 leading-8">
+
+        AI Driver Drowsiness Detection System uses
+        MediaPipe FaceMesh, OpenCV, Machine Learning
+        and React Dashboard to monitor driver alertness
+        in real-time.
+
+      </p>
+
+      <div className="mt-6 space-y-2">
+
+        <p>👩‍💻 Developer: Isha Pal</p>
+        <p>🎓 B.Tech IT</p>
+        <p>🤖 Tech Stack: React + Flask + OpenCV + ML</p>
+
+      </div>
+
+    </div>
+
+  </>
+
+)}
+
       </main>
 
     </div>
