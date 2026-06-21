@@ -10,7 +10,11 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function Sidebar() {
+
+function Sidebar({
+  selectedPage,
+  setSelectedPage
+}) {
 
   const [stats, setStats] = useState({
     online: true,
@@ -70,15 +74,31 @@ function Sidebar() {
         {/* Menu */}
         <nav className="p-4 space-y-3">
 
-          <div className="bg-blue-600 rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer">
-            <FaHome />
-            Dashboard
-          </div>
+          <div
+  onClick={() => setSelectedPage("dashboard")}
+  className={`rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer transition
+  ${
+    selectedPage === "dashboard"
+      ? "bg-blue-600"
+      : "hover:bg-slate-800"
+  }`}
+>
+  <FaHome />
+  Dashboard
+</div>
 
-          <div className="hover:bg-slate-800 rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer transition">
-            <FaChartLine />
-            Analytics
-          </div>
+          <div
+  onClick={() => setSelectedPage("analytics")}
+  className={`rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer transition
+  ${
+    selectedPage === "analytics"
+      ? "bg-blue-600"
+      : "hover:bg-slate-800"
+  }`}
+>
+  <FaChartLine />
+  Analytics
+</div>
 
           <div className="hover:bg-slate-800 rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer transition">
             <FaBell />

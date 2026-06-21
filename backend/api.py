@@ -192,6 +192,64 @@ def screenshot(filename):
         file_path,
         mimetype="image/jpeg"
     )
+    
+@app.route("/analytics")
+def analytics():
+
+    history_path = os.path.join(
+        os.path.dirname(__file__),
+        "history.json"
+    )
+
+    alerts_path = os.path.join(
+        os.path.dirname(__file__),
+        "alerts.json"
+    )
+
+    if not os.path.exists(history_path):
+        return jsonify({
+            "avgEAR": 0,
+            "avgMAR": 0,
+            "totalAlerts": 0,
+            "drowsyPercent": 0
+        })
+
+    with open(history_path, "r") as file:
+        history = json.load(file)
+
+    avg_ear = sum(
+        item["ear"] for item in history
+    ) / len(history)
+
+    avg_mar = sum(
+        item["mar"] for item in history
+    ) / len(history)
+
+    total_alerts = 0
+
+    if os.path.exists(alerts_path):
+        with open(alerts_path, "r") as file:
+            alerts = json.load(file)
+
+        total_alerts = len(alerts)
+
+    drowsy_count = len(
+        [x for x in history if x["ear"] < 0.20]
+    )
+
+    drowsy_percent = (
+        drowsy_count / len(history)
+    ) * 100
+
+    return jsonify({
+        "avgEAR": round(avg_ear, 2),
+        "avgMAR": round(avg_mar, 2),
+        "totalAlerts": total_alerts,
+        "drowsyPercent": round(
+            drowsy_percent,
+            1
+        )
+    })
 
 
 if __name__ == "__main__":

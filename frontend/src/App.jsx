@@ -13,8 +13,12 @@ import AlertPanel from "./components/AlertPanel";
 import AlertCountCard from "./components/AlertCountCard";
 
 import ScreenshotGallery from "./components/ScreenshotGallery";
+import AnalyticsPanel from "./components/AnalyticsPanel";
 
 function App() {
+
+  const [selectedPage, setSelectedPage] =
+    useState("dashboard");
 
   const [status, setStatus] = useState({
     ear: 0,
@@ -51,87 +55,110 @@ function App() {
   return (
     <div className="min-h-screen bg-slate-950 text-white flex">
 
-      <Sidebar />
+      <Sidebar
+        selectedPage={selectedPage}
+        setSelectedPage={setSelectedPage}
+      />
 
       <main className="flex-1 p-6 overflow-auto">
 
-        <Header />
+        {/* DASHBOARD */}
 
-        {/* TOP CARDS */}
+        {selectedPage === "dashboard" && (
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mt-6">
+          <>
 
-          <StatCard
-            title="EAR"
-            value={status.ear}
-            icon="👁"
-          />
+            <Header />
 
-          <StatCard
-            title="MAR"
-            value={status.mar}
-            icon="😮"
-          />
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mt-6">
 
-          <DriverState
-            state={status.state}
-          />
+              <StatCard
+                title="EAR"
+                value={status.ear}
+                icon="👁"
+              />
 
-          <AlertCountCard />
+              <StatCard
+                title="MAR"
+                value={status.mar}
+                icon="😮"
+              />
 
-        </div>
+              <DriverState
+                state={status.state}
+              />
 
-        {/* GRAPH + ALERTS */}
+              <AlertCountCard />
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 mt-6">
+            </div>
 
-          <div className="xl:col-span-2">
-            <TrendChart />
-          </div>
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 mt-6">
 
-          <AlertPanel />
+              <div className="xl:col-span-2">
+                <TrendChart />
+              </div>
 
-        </div>
+              <AlertPanel />
 
-        {/* LIVE FEED + SAFETY */}
+            </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 mt-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 mt-6">
 
-          <LiveFeed />
+              <LiveFeed />
 
-          <div className="mt-6">
-  <ScreenshotGallery />
-</div>
+              <ScreenshotGallery />
 
-          <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
+            </div>
 
-            <h2 className="text-2xl font-semibold mb-6">
-              Safety Tips
-            </h2>
+            <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 mt-6">
 
-            <ul className="space-y-5 text-slate-300 text-lg">
+              <h2 className="text-2xl font-semibold mb-6">
+                Safety Tips
+              </h2>
 
-              <li>
-                ✅ Take breaks every 2 hours
-              </li>
+              <ul className="space-y-5 text-slate-300 text-lg">
 
-              <li>
-                ✅ Stay hydrated
-              </li>
+                <li>
+                  ✅ Take breaks every 2 hours
+                </li>
 
-              <li>
-                ✅ Avoid driving when sleepy
-              </li>
+                <li>
+                  ✅ Stay hydrated
+                </li>
 
-              <li>
-                ✅ Keep face well illuminated
-              </li>
+                <li>
+                  ✅ Avoid driving when sleepy
+                </li>
 
-            </ul>
+                <li>
+                  ✅ Keep face well illuminated
+                </li>
 
-          </div>
+              </ul>
 
-        </div>
+            </div>
+
+          </>
+
+        )}
+
+        {/* ANALYTICS */}
+
+        {selectedPage === "analytics" && (
+
+          <>
+
+            <Header />
+
+            <div className="mt-6">
+
+              <AnalyticsPanel />
+
+            </div>
+
+          </>
+
+        )}
 
       </main>
 
