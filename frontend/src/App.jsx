@@ -14,6 +14,7 @@ import AlertCountCard from "./components/AlertCountCard";
 
 import ScreenshotGallery from "./components/ScreenshotGallery";
 import AnalyticsPanel from "./components/AnalyticsPanel";
+import HistoryPanel from "./components/HistoryPanel";
 
 function App() {
 
@@ -181,7 +182,7 @@ function App() {
       <Header />
 
       <div className="mt-6">
-        <TrendChart />
+        <HistoryPanel />
       </div>
     </>
   )
