@@ -18,10 +18,20 @@ import HistoryPanel from "./components/HistoryPanel";
 import ReportButton from "./components/ReportButton";
 import SettingsPanel from "./components/SettingsPanel";
 
+import Login from "./Login";
+
 function App() {
 
   const [selectedPage, setSelectedPage] =
     useState("dashboard");
+
+  const [isLoggedIn, setIsLoggedIn] =
+  useState(
+    !!localStorage.getItem("token")
+  );
+
+  const [darkMode, setDarkMode] =
+  useState(true);  
 
   const [status, setStatus] = useState({
     ear: 0,
@@ -55,13 +65,31 @@ function App() {
 
   }, []);
 
+  if (!isLoggedIn) {
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex">
+    <Login
+      setIsLoggedIn={setIsLoggedIn}
+    />
+  );
+
+}
+
+  return (
+    <div
+  className={`min-h-screen flex ${
+    darkMode
+      ? "bg-slate-950 text-white"
+      : "bg-gray-100 text-black"
+  }`}
+>
 
       <Sidebar
-        selectedPage={selectedPage}
-        setSelectedPage={setSelectedPage}
-      />
+  selectedPage={selectedPage}
+  setSelectedPage={setSelectedPage}
+  darkMode={darkMode}
+  setDarkMode={setDarkMode}
+/>
 
       <main className="flex-1 p-6 overflow-auto">
 
@@ -290,7 +318,10 @@ function App() {
     <Header />
 
     <div className="mt-6">
-      <SettingsPanel />
+      <SettingsPanel
+  darkMode={darkMode}
+  setDarkMode={setDarkMode}
+/>
     </div>
   </>
 )}

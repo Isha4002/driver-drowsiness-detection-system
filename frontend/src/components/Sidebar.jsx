@@ -13,7 +13,9 @@ import axios from "axios";
 
 function Sidebar({
   selectedPage,
-  setSelectedPage
+  setSelectedPage,
+  darkMode,
+  setDarkMode
 }) {
 
   const [stats, setStats] = useState({

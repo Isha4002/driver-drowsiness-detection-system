@@ -2,12 +2,16 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from state import latest_data
 from flask import send_file
+from flask import request
+import jwt
+import datetime
 
 
 import json
 import os
 
 app = Flask(__name__)
+SECRET_KEY = "isha_driver_secret"
 CORS(app)
 
 @app.route("/")
@@ -340,6 +344,42 @@ def latest_screenshot():
     return jsonify({
         "image": files[0]
     })
+    
+@app.route("/login", methods=["POST"])
+def login():
+
+    data = request.json
+
+    username = data.get("username")
+    password = data.get("password")
+
+    with open("users.json", "r") as file:
+        users = json.load(file)
+
+    for user in users:
+
+        if (
+            user["username"] == username
+            and user["password"] == password
+        ):
+
+            token = jwt.encode(
+                {
+                    "username": username,
+                    "exp": datetime.datetime.utcnow()
+                    + datetime.timedelta(hours=12)
+                },
+                SECRET_KEY,
+                algorithm="HS256"
+            )
+
+            return jsonify({
+                "token": token
+            })
+
+    return jsonify({
+        "error": "Invalid Credentials"
+    }), 401
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -43,15 +43,30 @@ function Header() {
           </p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 min-w-[180px]">
-          <h2 className="text-green-400 text-2xl font-bold">
-            📷 Camera Active
-          </h2>
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 min-w-[220px]">
 
-          <p className="text-slate-400">
-            Live Monitoring
-          </p>
-        </div>
+  <h2 className="text-green-400 text-xl font-bold">
+    👤 Admin
+  </h2>
+
+  <p className="text-slate-400 mb-3">
+    Logged In
+  </p>
+
+  <button
+    onClick={() => {
+
+      localStorage.removeItem("token");
+
+      window.location.reload();
+
+    }}
+    className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-xl text-white font-semibold"
+  >
+    Logout
+  </button>
+
+</div>
 
       </div>
 

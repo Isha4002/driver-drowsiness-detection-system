@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function SettingsPanel() {
+function SettingsPanel({
+  darkMode,
+  setDarkMode
+}) {
 
   const [threshold, setThreshold] =
     useState(0.20);
@@ -97,6 +100,34 @@ function SettingsPanel() {
           </select>
 
         </div>
+
+        <div>
+
+  <label>
+    Theme
+  </label>
+
+  <select
+    value={darkMode ? "dark" : "light"}
+    onChange={(e) =>
+      setDarkMode(
+        e.target.value === "dark"
+      )
+    }
+    className="w-full mt-2 bg-slate-800 p-3 rounded-xl"
+  >
+
+    <option value="dark">
+      Dark
+    </option>
+
+    <option value="light">
+      Light
+    </option>
+
+  </select>
+
+</div>
 
         <button
           onClick={saveSettings}
