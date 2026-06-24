@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from state import latest_data
 from flask import send_file
@@ -266,6 +266,49 @@ def clear_alerts():
         "message": "Alerts Cleared"
     })
 
+
+@app.route("/settings")
+def get_settings():
+
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "settings.json"
+    )
+
+    if not os.path.exists(file_path):
+
+        default_settings = {
+            "ear_threshold": 0.20,
+            "alarm_enabled": True
+        }
+
+        with open(file_path, "w") as file:
+            json.dump(default_settings, file)
+
+        return jsonify(default_settings)
+
+    with open(file_path, "r") as file:
+        data = json.load(file)
+
+    return jsonify(data)
+
+
+@app.route("/settings", methods=["POST"])
+def save_settings():
+
+    data = request.json
+
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "settings.json"
+    )
+
+    with open(file_path, "w") as file:
+        json.dump(data, file)
+
+    return jsonify({
+        "message": "Settings Saved"
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)

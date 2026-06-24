@@ -13,6 +13,23 @@ from time import time
 start_time = time()
 
 
+def get_threshold():
+
+    try:
+        with open("settings.json", "r") as file:
+            data = json.load(file)
+
+        return float(
+            data.get(
+                "ear_threshold",
+                0.20
+            )
+        )
+
+    except:
+        return 0.20
+
+
 # --------------------------------
 # Load ML Model
 # --------------------------------
@@ -202,8 +219,11 @@ while True:
         # ML Prediction
         # -------------------------
 
-        if ear < 0.20:
+        threshold = get_threshold()
+
+        if ear < threshold:
             closed_frames += 1
+            
         else:
             closed_frames = 0
             
@@ -218,7 +238,10 @@ while True:
             "Frames:",
             closed_frames,
             "State:",
-            state
+            state,
+            "Threshold:",
+            threshold
+            
          )
         # -------------------------
         # Save Live Status
