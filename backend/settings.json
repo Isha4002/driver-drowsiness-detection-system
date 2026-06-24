@@ -1,4 +1,4 @@
 {
   "ear_threshold": 0.20,
-  "alarm_enabled": true
+  "alarm_enabled": false
 }

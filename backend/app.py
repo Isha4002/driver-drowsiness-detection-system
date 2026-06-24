@@ -28,6 +28,21 @@ def get_threshold():
 
     except:
         return 0.20
+    
+def alarm_enabled():
+
+    try:
+
+        with open("settings.json", "r") as file:
+            data = json.load(file)
+
+        return data.get(
+            "alarm_enabled",
+            True
+        )
+
+    except:
+        return True
 
 
 # --------------------------------
@@ -312,16 +327,20 @@ while True:
         state == "Drowsy"
         and last_state != "Drowsy"
         ):
-        
-        play_alarm()
+
+        if alarm_enabled():
+            play_alarm()
+
         save_alert("Drowsiness Detected")
+
         timestamp = datetime.now().strftime(
             "%Y%m%d_%H%M%S"
         )
+        
         cv2.imwrite(
             f"screenshots/{timestamp}.jpg",
             frame
-            )
+        )
         
         last_state = state
         # -------------------------
