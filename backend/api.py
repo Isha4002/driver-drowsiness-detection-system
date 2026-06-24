@@ -310,5 +310,36 @@ def save_settings():
         "message": "Settings Saved"
     })
 
+
+@app.route("/latest-screenshot")
+def latest_screenshot():
+
+    folder = os.path.join(
+        os.path.dirname(__file__),
+        "screenshots"
+    )
+
+    if not os.path.exists(folder):
+        return jsonify({
+            "image": None
+        })
+
+    files = sorted(
+        [
+            f for f in os.listdir(folder)
+            if f.endswith(".jpg")
+        ],
+        reverse=True
+    )
+
+    if not files:
+        return jsonify({
+            "image": None
+        })
+
+    return jsonify({
+        "image": files[0]
+    })
+
 if __name__ == "__main__":
     app.run(debug=True)
