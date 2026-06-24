@@ -16,6 +16,7 @@ import ScreenshotGallery from "./components/ScreenshotGallery";
 import AnalyticsPanel from "./components/AnalyticsPanel";
 import HistoryPanel from "./components/HistoryPanel";
 import ReportButton from "./components/ReportButton";
+import SettingsPanel from "./components/SettingsPanel";
 
 function App() {
 
@@ -177,14 +178,16 @@ function App() {
 
 )}
 
-<div className="mb-6">
-  <ReportButton />
-</div>
+
 
 {
   selectedPage === "history" && (
     <>
       <Header />
+
+      <div className="mb-6">
+  <ReportButton />
+</div>
 
       <div className="mt-6">
         <HistoryPanel />
@@ -193,51 +196,7 @@ function App() {
   )
 }
 
-{/* SETTINGS */}
 
-{selectedPage === "settings" && (
-
-  <>
-    <Header />
-
-    <div className="mt-6 bg-slate-900 p-8 rounded-2xl border border-slate-800">
-
-      <h2 className="text-3xl font-bold mb-6">
-        Settings
-      </h2>
-
-      <div className="space-y-6">
-
-        <div>
-          <label className="block text-slate-400 mb-2">
-            EAR Threshold
-          </label>
-
-          <input
-            type="number"
-            defaultValue="0.20"
-            className="bg-slate-800 p-3 rounded-xl w-full"
-          />
-        </div>
-
-        <div>
-          <label className="block text-slate-400 mb-2">
-            Alert Sound
-          </label>
-
-          <select className="bg-slate-800 p-3 rounded-xl w-full">
-            <option>Enabled</option>
-            <option>Disabled</option>
-          </select>
-        </div>
-
-      </div>
-
-    </div>
-
-  </>
-
-)}
 
 {/* ABOUT */}
 
@@ -248,24 +207,74 @@ function App() {
 
     <div className="mt-6 bg-slate-900 p-8 rounded-2xl border border-slate-800">
 
-      <h2 className="text-3xl font-bold mb-4">
+      <h2 className="text-4xl font-bold mb-4">
         About Project
       </h2>
 
-      <p className="text-slate-300 leading-8">
+      <p className="text-slate-300 leading-8 text-lg">
 
-        AI Driver Drowsiness Detection System uses
-        MediaPipe FaceMesh, OpenCV, Machine Learning
-        and React Dashboard to monitor driver alertness
-        in real-time.
+        AI Driver Drowsiness Detection System is a real-time
+        monitoring solution that uses Computer Vision and
+        Machine Learning to detect signs of driver fatigue
+        and alert the driver before accidents occur.
 
       </p>
 
-      <div className="mt-6 space-y-2">
+      <div className="grid md:grid-cols-2 gap-6 mt-8">
 
-        <p>👩‍💻 Developer: Isha Pal</p>
-        <p>🎓 B.Tech IT</p>
-        <p>🤖 Tech Stack: React + Flask + OpenCV + ML</p>
+        <div className="bg-slate-800 p-6 rounded-2xl">
+
+          <h3 className="text-2xl font-semibold mb-3">
+            🚀 Features
+          </h3>
+
+          <ul className="space-y-2 text-slate-300">
+
+            <li>✅ Real-Time Eye Monitoring</li>
+            <li>✅ Drowsiness Detection</li>
+            <li>✅ Live Camera Feed</li>
+            <li>✅ Alert History Tracking</li>
+            <li>✅ Screenshot Capture</li>
+            <li>✅ Analytics Dashboard</li>
+
+          </ul>
+
+        </div>
+
+        <div className="bg-slate-800 p-6 rounded-2xl">
+
+          <h3 className="text-2xl font-semibold mb-3">
+            🛠 Tech Stack
+          </h3>
+
+          <ul className="space-y-2 text-slate-300">
+
+            <li>React.js</li>
+            <li>Flask API</li>
+            <li>OpenCV</li>
+            <li>MediaPipe FaceMesh</li>
+            <li>Machine Learning</li>
+            <li>Chart.js</li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+      <div className="mt-8 bg-slate-800 p-6 rounded-2xl">
+
+        <h3 className="text-2xl font-semibold mb-3">
+          👩‍💻 Developer
+        </h3>
+
+        <p className="text-slate-300">
+          Isha Pal
+        </p>
+
+        <p className="text-slate-400">
+          B.Tech Information Technology
+        </p>
 
       </div>
 
@@ -273,6 +282,17 @@ function App() {
 
   </>
 
+)}
+
+
+{selectedPage === "settings" && (
+  <>
+    <Header />
+
+    <div className="mt-6">
+      <SettingsPanel />
+    </div>
+  </>
 )}
 
       </main>
