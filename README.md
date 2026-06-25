@@ -395,9 +395,9 @@ During this project, the following technologies and concepts were implemented:
 
 GitHub: https://github.com/Isha4002
 
-LinkedIn: *(Add your LinkedIn Profile)*
+LinkedIn: *(https://www.linkedin.com/in/isha-pal-76724a2a4/)*
 
-Email: *(Add your Email Address)*
+Email: *(ishapal2004@gmail.com)*
 
 ---
 
