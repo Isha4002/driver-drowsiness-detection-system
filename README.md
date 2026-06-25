@@ -292,7 +292,7 @@ npm run dev
 ## 📝 Registration Page
 
 <p align="center">
-  <img src="images/register (2).png" width="900"/>
+  <img src="images/register.png" width="900"/>
 </p>
 
 ---
