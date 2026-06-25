@@ -2,7 +2,7 @@
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge)](https://driver-drowsiness-frontend-rho.vercel.app)
 [![Backend API](https://img.shields.io/badge/Backend-Render-blue?style=for-the-badge)](https://driver-drowsiness-backends.onrender.com)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/Isha4002/DriverDrowsinessSystem)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/Isha4002/driver-drowsiness-detection-system)
 
 <div align="center">
 
