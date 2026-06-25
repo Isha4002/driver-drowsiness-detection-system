@@ -461,7 +461,26 @@ def login():
     }), 401
 
 
+@app.route("/clear-screenshots", methods=["POST"])
+def clear_screenshots():
 
+    folder = os.path.join(
+        os.path.dirname(__file__),
+        "screenshots"
+    )
+
+    if os.path.exists(folder):
+
+        for file in os.listdir(folder):
+
+            file_path = os.path.join(folder, file)
+
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+
+    return jsonify({
+        "message": "Screenshots Cleared"
+    })
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

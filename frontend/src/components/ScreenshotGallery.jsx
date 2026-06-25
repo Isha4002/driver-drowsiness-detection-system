@@ -6,6 +6,21 @@ function ScreenshotGallery() {
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const clearScreenshots = () => {
+
+  if (!window.confirm("Are you sure you want to delete all screenshots?")) {
+    return;
+  }
+
+  api.post("/clear-screenshots")
+    .then(() => {
+      setImages([]);
+      setSelectedImage(null);
+    })
+    .catch((err) => console.log(err));
+
+};
+
   useEffect(() => {
 
     api
@@ -24,6 +39,13 @@ function ScreenshotGallery() {
       <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
 
         <div className="flex justify-between items-center mb-4">
+
+          <button
+  onClick={clearScreenshots}
+  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+>
+  Clear Screenshots
+</button>
 
           <h2 className="text-2xl font-bold">
             Screenshot Gallery
