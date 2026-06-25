@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../api";
 
 function LiveFeed() {
   const [imageUrl, setImageUrl] = useState("");
@@ -6,7 +7,7 @@ function LiveFeed() {
   useEffect(() => {
     const interval = setInterval(() => {
       setImageUrl(
-        `/frame?t=${Date.now()}`
+        `${api.defaults.baseURL}/frame?t=${Date.now()}`
       );
     }, 500);
 
@@ -19,11 +20,13 @@ function LiveFeed() {
         Live Feed
       </h2>
 
-      <img
-        src={imageUrl}
-        alt="Live Feed"
-        className="w-full rounded-xl"
-      />
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt="Live Feed"
+          className="w-full rounded-xl"
+        />
+      )}
     </div>
   );
 }

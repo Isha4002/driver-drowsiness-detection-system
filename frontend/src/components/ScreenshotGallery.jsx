@@ -52,10 +52,10 @@ function ScreenshotGallery() {
               )}
 
               <img
-                src={`/screenshot/${img}`}
-                alt={img}
-                className="rounded-xl border border-slate-700 transition duration-300 group-hover:scale-105"
-              />
+  src={`${api.defaults.baseURL}/screenshot/${img}`}
+  alt={img}
+  className="rounded-xl border border-slate-700 transition duration-300 group-hover:scale-105"
+/>
 
             </div>
 
@@ -86,7 +86,7 @@ function ScreenshotGallery() {
 </button>
 
             <a
-              href={`http://driver-drowsiness-backends.onrender.com/screenshot/${selectedImage}`}
+              href={`${api.defaults.baseURL}/screenshot/${selectedImage}`}
               download
               className="absolute -top-12 right-24 bg-blue-500 px-4 py-2 rounded-lg"
             >
@@ -94,7 +94,7 @@ function ScreenshotGallery() {
             </a>
 
             <img
-              src={`http://driver-drowsiness-backends.onrender.com/screenshot/${selectedImage}`}
+              src={`${api.defaults.baseURL}/screenshot/${selectedImage}`}
               alt={selectedImage}
               className="w-full rounded-2xl"
             />

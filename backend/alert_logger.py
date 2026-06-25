@@ -22,4 +22,4 @@ def save_alert(message):
     })
 
     with open(FILE_PATH, "w") as f:
-        json.dump(alerts, f, indent=4)
+        json.dump(alerts, f, indent=4) 

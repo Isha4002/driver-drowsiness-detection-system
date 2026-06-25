@@ -14,8 +14,8 @@ users_collection = db["users"]
 
 alerts_collection = db["alerts"]
 
-history_collection = db["history"]
+# history_collection = db["history"]
 
-screenshots_collection = db["screenshots"]
+# screenshots_collection = db["screenshots"]
 
-print("MongoDB Connected Successfully!")
+# print("MongoDB Connected Successfully!")
