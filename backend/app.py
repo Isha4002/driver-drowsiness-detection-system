@@ -327,7 +327,7 @@ while True:
     if (
         state == "Drowsy"
         and last_state != "Drowsy"
-        ):
+    ):
 
         if alarm_enabled():
             play_alarm()
