@@ -276,57 +276,55 @@ npm run dev
 
 # 📷 Project Screenshots
 
+
 ## 🔐 Login Page
 
-> Replace with your screenshot
-
-```text
-images/login.png
-```
+<p align="center">
+  <img src="images/login.png" width="900"/>
+</p>
 
 ---
 
 ## 📝 Registration Page
 
-```text
-images/register.png
-```
+<p align="center">
+  <img src="images/register.png" width="900"/>
+</p>
 
 ---
 
 ## 📊 Dashboard
 
-```text
-images/dashboard.png
-```
+<p align="center">
+  <img src="images/dashboard.png" width="900"/>
+</p>
 
 ---
 
 ## 📈 Analytics
 
-```text
-images/analytics.png
-```
+<p align="center">
+  <img src="images/analytics.png" width="900"/>
+</p>
 
 ---
 
 ## 📜 History
 
-```text
-images/history.png
-```
+<p align="center">
+  <img src="images/history.png" width="900"/>
+</p>
 
 ---
+
 
 
 
 ## ⚙️ Settings
 
-```text
-images/settings.png
-```
-
----
+<p align="center">
+  <img src="images/settings.png" width="900"/>
+</p>
 
 # 📡 REST API Endpoints
 
