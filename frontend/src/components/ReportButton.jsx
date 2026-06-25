@@ -8,19 +8,19 @@ function ReportButton() {
     try {
 
       const statusRes = await axios.get(
-        "http://127.0.0.1:5000/status"
+        "http://driver-drowsiness-backends.onrender.com/status"
       );
 
       const statsRes = await axios.get(
-        "http://127.0.0.1:5000/stats"
+        "http://driver-drowsiness-backends.onrender.com/stats"
       );
 
       const analyticsRes = await axios.get(
-        "http://127.0.0.1:5000/analytics"
+        "http://driver-drowsiness-backends.onrender.com/analytics"
       );
 
       const screenshotRes = await axios.get(
-        "http://127.0.0.1:5000/latest-screenshot"
+        "http://driver-drowsiness-backends.onrender.com/latest-screenshot"
       );
 
       const status = statusRes.data;
@@ -183,7 +183,7 @@ doc.text(
       if (screenshotRes.data.image) {
 
         const imgUrl =
-          `http://127.0.0.1:5000/screenshot/${screenshotRes.data.image}`;
+          `http://driver-drowsiness-backends.onrender.com/screenshot/${screenshotRes.data.image}`;
 
         const img = new Image();
 

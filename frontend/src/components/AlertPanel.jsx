@@ -10,7 +10,7 @@ function AlertPanel() {
     const fetchAlerts = () => {
 
       axios
-        .get("http://127.0.0.1:5000/alerts")
+        .get("http://driver-drowsiness-backends.onrender.com/alerts")
         .then((res) => {
           setAlerts(res.data);
         })
@@ -34,7 +34,7 @@ function AlertPanel() {
   const clearAlerts = () => {
 
     axios
-      .post("http://127.0.0.1:5000/clear-alerts")
+      .post("http://driver-drowsiness-backends.onrender.com/clear-alerts")
       .then(() => {
         setAlerts([]);
       })

@@ -9,7 +9,7 @@ function ScreenshotGallery() {
   useEffect(() => {
 
     axios
-      .get("http://127.0.0.1:5000/screenshots")
+      .get("http://driver-drowsiness-backends.onrender.com/screenshots")
       .then((res) => {
         setImages(res.data);
       })
@@ -52,7 +52,7 @@ function ScreenshotGallery() {
               )}
 
               <img
-                src={`http://127.0.0.1:5000/screenshot/${img}`}
+                src={`http://driver-drowsiness-backends.onrender.com/screenshot/${img}`}
                 alt={img}
                 className="rounded-xl border border-slate-700 transition duration-300 group-hover:scale-105"
               />
@@ -86,7 +86,7 @@ function ScreenshotGallery() {
 </button>
 
             <a
-              href={`http://127.0.0.1:5000/screenshot/${selectedImage}`}
+              href={`http://driver-drowsiness-backends.onrender.com/screenshot/${selectedImage}`}
               download
               className="absolute -top-12 right-24 bg-blue-500 px-4 py-2 rounded-lg"
             >
@@ -94,7 +94,7 @@ function ScreenshotGallery() {
             </a>
 
             <img
-              src={`http://127.0.0.1:5000/screenshot/${selectedImage}`}
+              src={`http://driver-drowsiness-backends.onrender.com/screenshot/${selectedImage}`}
               alt={selectedImage}
               className="w-full rounded-2xl"
             />

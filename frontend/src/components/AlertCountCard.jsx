@@ -7,7 +7,7 @@ function AlertCountCard() {
   useEffect(() => {
     const fetchCount = () => {
       axios
-        .get("http://127.0.0.1:5000/alert-count")
+        .get("http://driver-drowsiness-backends.onrender.com/alert-count")
         .then((res) => {
           setCount(res.data.count);
         })

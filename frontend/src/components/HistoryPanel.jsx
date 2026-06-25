@@ -9,11 +9,11 @@ function HistoryPanel() {
   useEffect(() => {
 
     axios
-      .get("http://127.0.0.1:5000/alerts")
+      .get("http://driver-drowsiness-backends.onrender.com/alerts")
       .then((res) => setAlerts(res.data));
 
     axios
-      .get("http://127.0.0.1:5000/screenshots")
+      .get("hhttp://driver-drowsiness-backends.onrender.com/screenshots")
       .then((res) => setScreenshots(res.data));
 
   }, []);
@@ -107,7 +107,7 @@ function HistoryPanel() {
 
               <img
                 key={img}
-                src={`http://127.0.0.1:5000/screenshot/${img}`}
+                src={`http://driver-drowsiness-backends.onrender.com/screenshot/${img}`}
                 alt={img}
                 className="rounded-xl border border-slate-700"
               />

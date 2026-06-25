@@ -15,7 +15,7 @@ function SettingsPanel({
   useEffect(() => {
 
     axios
-      .get("http://127.0.0.1:5000/settings")
+      .get("http://driver-drowsiness-backends.onrender.com/settings")
       .then((res) => {
 
         setThreshold(
@@ -33,7 +33,7 @@ function SettingsPanel({
   const saveSettings = () => {
 
     axios.post(
-      "http://127.0.0.1:5000/settings",
+      "http://driver-drowsiness-backends.onrender.com/settings",
       {
         ear_threshold: threshold,
         alarm_enabled: alarm

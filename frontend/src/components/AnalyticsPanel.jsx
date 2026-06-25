@@ -14,7 +14,7 @@ function AnalyticsPanel() {
   useEffect(() => {
 
     axios
-      .get("http://127.0.0.1:5000/analytics")
+      .get("http://driver-drowsiness-backends.onrender.com/analytics")
       .then((res) => {
         setData({
           ...res.data,

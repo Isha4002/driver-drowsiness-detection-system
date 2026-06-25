@@ -48,7 +48,7 @@ function App() {
     const fetchStatus = () => {
 
       axios
-        .get("http://127.0.0.1:5000/status")
+        .get("http://driver-drowsiness-backends.onrender.com/status")
         .then((res) => {
           setStatus(res.data);
         })

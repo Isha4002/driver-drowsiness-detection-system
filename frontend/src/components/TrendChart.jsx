@@ -19,7 +19,7 @@ function TrendChart() {
     const fetchHistory = () => {
 
       axios
-        .get("http://127.0.0.1:5000/history")
+        .get("http://driver-drowsiness-backends.onrender.com/history")
         .then((res) => {
 
           const formatted =
