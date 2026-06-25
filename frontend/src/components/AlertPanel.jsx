@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 function AlertPanel() {
 
@@ -9,8 +9,8 @@ function AlertPanel() {
 
     const fetchAlerts = () => {
 
-      axios
-        .get("http://driver-drowsiness-backends.onrender.com/alerts")
+      api
+        .get("/alerts")
         .then((res) => {
           setAlerts(res.data);
         })
@@ -33,8 +33,8 @@ function AlertPanel() {
 
   const clearAlerts = () => {
 
-    axios
-      .post("http://driver-drowsiness-backends.onrender.com/clear-alerts")
+    api
+      .post("/clear-alerts")
       .then(() => {
         setAlerts([]);
       })

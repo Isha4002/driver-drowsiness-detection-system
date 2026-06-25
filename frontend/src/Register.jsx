@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "./api";
 
 function Register({ setShowRegister }) {
 
@@ -25,8 +25,8 @@ function Register({ setShowRegister }) {
 
     try {
 
-      await axios.post(
-        "http://driver-drowsiness-backends.onrender.com/register",
+      await api.post(
+        "/register",
         {
           username,
           password

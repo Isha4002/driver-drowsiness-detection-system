@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 function HistoryPanel() {
 
@@ -8,11 +8,11 @@ function HistoryPanel() {
 
   useEffect(() => {
 
-    axios
-      .get("http://driver-drowsiness-backends.onrender.com/alerts")
+    api
+      .get("/alerts")
       .then((res) => setAlerts(res.data));
 
-    axios
+    api
       .get("hhttp://driver-drowsiness-backends.onrender.com/screenshots")
       .then((res) => setScreenshots(res.data));
 
@@ -107,7 +107,7 @@ function HistoryPanel() {
 
               <img
                 key={img}
-                src={`http://driver-drowsiness-backends.onrender.com/screenshot/${img}`}
+                src={`/screenshot/${img}`}
                 alt={img}
                 className="rounded-xl border border-slate-700"
               />

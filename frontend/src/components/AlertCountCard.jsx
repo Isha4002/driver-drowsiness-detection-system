@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 function AlertCountCard() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     const fetchCount = () => {
-      axios
-        .get("http://driver-drowsiness-backends.onrender.com/alert-count")
+      api
+        .get("/alert-count")
         .then((res) => {
           setCount(res.data.count);
         })

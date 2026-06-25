@@ -6,7 +6,7 @@ function LiveFeed() {
   useEffect(() => {
     const interval = setInterval(() => {
       setImageUrl(
-        `http://driver-drowsiness-backends.onrender.com/frame?t=${Date.now()}`
+        `/frame?t=${Date.now()}`
       );
     }, 500);
 

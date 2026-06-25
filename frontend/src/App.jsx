@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "./api";
 
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
@@ -47,8 +47,7 @@ function App() {
 
     const fetchStatus = () => {
 
-      axios
-        .get("http://driver-drowsiness-backends.onrender.com/status")
+        api.get("/status")
         .then((res) => {
           setStatus(res.data);
         })

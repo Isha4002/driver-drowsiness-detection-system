@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "./api";
 
 import {
   FaUser,
@@ -34,8 +34,8 @@ function Login({
 
     try {
 
-      const res = await axios.post(
-        "http://driver-drowsiness-backends.onrender.com/login",
+      const res = await api.post(
+        "/login",
         {
           username,
           password

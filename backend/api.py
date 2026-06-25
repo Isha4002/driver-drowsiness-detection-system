@@ -13,6 +13,41 @@ import os
 from dotenv import load_dotenv
 from db import users_collection
 
+from functools import wraps
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+
+        token = request.headers.get("Authorization")
+
+        if not token:
+            return jsonify({
+                "error": "Token Missing"
+            }), 401
+
+        try:
+
+            token = token.replace("Bearer ", "")
+
+            data = jwt.decode(
+                token,
+                SECRET_KEY,
+                algorithms=["HS256"]
+            )
+
+            request.username = data["username"]
+
+        except Exception:
+
+            return jsonify({
+                "error": "Invalid Token"
+            }), 401
+
+        return f(*args, **kwargs)
+
+    return decorated
+
 
 load_dotenv()
 app = Flask(__name__)

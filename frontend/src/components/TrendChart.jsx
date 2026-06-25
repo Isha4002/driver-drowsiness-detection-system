@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 import {
   LineChart,
@@ -18,8 +18,8 @@ function TrendChart() {
 
     const fetchHistory = () => {
 
-      axios
-        .get("http://driver-drowsiness-backends.onrender.com/history")
+      api
+        .get("/history")
         .then((res) => {
 
           const formatted =

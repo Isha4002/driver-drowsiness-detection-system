@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 function AnalyticsPanel() {
 
@@ -13,8 +13,8 @@ function AnalyticsPanel() {
 
   useEffect(() => {
 
-    axios
-      .get("http://driver-drowsiness-backends.onrender.com/analytics")
+    api
+      .get("/analytics")
       .then((res) => {
         setData({
           ...res.data,

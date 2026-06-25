@@ -1,5 +1,5 @@
 import jsPDF from "jspdf";
-import axios from "axios";
+import api from "../api";
 
 function ReportButton() {
 
@@ -7,20 +7,20 @@ function ReportButton() {
 
     try {
 
-      const statusRes = await axios.get(
-        "http://driver-drowsiness-backends.onrender.com/status"
+      const statusRes = await api.get(
+        "/status"
       );
 
-      const statsRes = await axios.get(
-        "http://driver-drowsiness-backends.onrender.com/stats"
+      const statsRes = await api.get(
+        "/stats"
       );
 
-      const analyticsRes = await axios.get(
-        "http://driver-drowsiness-backends.onrender.com/analytics"
+      const analyticsRes = await api.get(
+        "/analytics"
       );
 
-      const screenshotRes = await axios.get(
-        "http://driver-drowsiness-backends.onrender.com/latest-screenshot"
+      const screenshotRes = await api.get(
+        "/latest-screenshot"
       );
 
       const status = statusRes.data;

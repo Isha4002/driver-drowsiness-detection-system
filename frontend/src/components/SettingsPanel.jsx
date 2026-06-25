@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 function SettingsPanel({
   darkMode,
@@ -14,8 +14,8 @@ function SettingsPanel({
 
   useEffect(() => {
 
-    axios
-      .get("http://driver-drowsiness-backends.onrender.com/settings")
+    api
+      .get("/settings")
       .then((res) => {
 
         setThreshold(
@@ -32,8 +32,8 @@ function SettingsPanel({
 
   const saveSettings = () => {
 
-    axios.post(
-      "http://driver-drowsiness-backends.onrender.com/settings",
+    api.post(
+      "/settings",
       {
         ear_threshold: threshold,
         alarm_enabled: alarm

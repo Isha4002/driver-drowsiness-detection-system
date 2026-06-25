@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 function ScreenshotGallery() {
 
@@ -8,8 +8,8 @@ function ScreenshotGallery() {
 
   useEffect(() => {
 
-    axios
-      .get("http://driver-drowsiness-backends.onrender.com/screenshots")
+    api
+      .get("/screenshots")
       .then((res) => {
         setImages(res.data);
       })
@@ -52,7 +52,7 @@ function ScreenshotGallery() {
               )}
 
               <img
-                src={`http://driver-drowsiness-backends.onrender.com/screenshot/${img}`}
+                src={`/screenshot/${img}`}
                 alt={img}
                 className="rounded-xl border border-slate-700 transition duration-300 group-hover:scale-105"
               />

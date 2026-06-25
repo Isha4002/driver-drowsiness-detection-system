@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 
 function Sidebar({
@@ -29,8 +29,8 @@ function Sidebar({
 
     const fetchStats = () => {
 
-      axios
-        .get("http://driver-drowsiness-backends.onrender.com/stats")
+      api
+        .get("/stats")
         .then((res) => {
           setStats(res.data);
         })
