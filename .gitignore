@@ -1,5 +1,6 @@
 # Virtual Environment
 venv/
+.env
 
 # Python Cache
 __pycache__/
@@ -30,3 +31,5 @@ screenshots/
 # OS Files
 .DS_Store
 Thumbs.db
+
+

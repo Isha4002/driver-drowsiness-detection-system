@@ -10,7 +10,10 @@ import {
 
 import bgImage from "./assets/login-bg.png";
 
-function Login({ setIsLoggedIn }) {
+function Login({
+  setIsLoggedIn,
+  setShowRegister
+}) {
 
   const [username, setUsername] =
     useState("");
@@ -275,16 +278,26 @@ function Login({ setIsLoggedIn }) {
 
         {/* Footer */}
 
-        <p
-          className="
-          text-center
-          text-slate-500
-          text-sm
-          mt-6
-        "
-        >
-          AI Powered Driver Safety Platform
-        </p>
+       <div className="text-center mt-6">
+
+  <p className="text-slate-500 text-sm">
+    AI Powered Driver Safety Platform
+  </p>
+
+  <p className="mt-4 text-slate-600">
+
+    Don't have an account?
+
+    <button
+      onClick={() => setShowRegister(true)}
+      className="text-blue-600 ml-2 font-semibold hover:underline"
+    >
+      Sign Up
+    </button>
+
+  </p>
+
+</div>
 
       </div>
 

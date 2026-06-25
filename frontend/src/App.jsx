@@ -19,6 +19,7 @@ import ReportButton from "./components/ReportButton";
 import SettingsPanel from "./components/SettingsPanel";
 
 import Login from "./Login";
+import Register from "./Register";
 
 function App() {
 
@@ -29,6 +30,9 @@ function App() {
   useState(
     !!localStorage.getItem("token")
   );
+
+  const [showRegister, setShowRegister] =
+  useState(false);
 
   const [darkMode, setDarkMode] =
   useState(true);  
@@ -65,12 +69,21 @@ function App() {
 
   }, []);
 
-  if (!isLoggedIn) {
+ if (!isLoggedIn) {
 
-  return (
+  return showRegister ? (
+
+    <Register
+      setShowRegister={setShowRegister}
+    />
+
+  ) : (
+
     <Login
       setIsLoggedIn={setIsLoggedIn}
+      setShowRegister={setShowRegister}
     />
+
   );
 
 }

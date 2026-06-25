@@ -5,13 +5,18 @@ from flask import send_file
 from flask import request
 import jwt
 import datetime
+import bcrypt
 
 
 import json
 import os
+from dotenv import load_dotenv
+from db import users_collection
 
+
+load_dotenv()
 app = Flask(__name__)
-SECRET_KEY = "isha_driver_secret"
+SECRET_KEY = os.getenv("SECRET_KEY")
 CORS(app)
 
 @app.route("/")
@@ -345,6 +350,45 @@ def latest_screenshot():
         "image": files[0]
     })
     
+@app.route("/register", methods=["POST"])
+def register():
+    
+    print("REGISTER API CALLED")
+
+    data = request.json
+
+    print(data)
+
+    data = request.json
+
+    username = data.get("username")
+    password = data.get("password")
+
+    if users_collection.find_one({"username": username}):
+
+        return jsonify({
+            "error": "Username already exists"
+        }), 400
+
+    hashed_password = bcrypt.hashpw(
+        password.encode("utf-8"),
+        bcrypt.gensalt()
+        
+    )
+    
+    print("Saving user:", username)
+    
+    users_collection.insert_one({
+        
+        "username": username,
+        "password": hashed_password.decode("utf-8")
+
+})
+
+    return jsonify({
+        "message": "Registration Successful"
+    })
+    
 @app.route("/login", methods=["POST"])
 def login():
 
@@ -353,33 +397,36 @@ def login():
     username = data.get("username")
     password = data.get("password")
 
-    with open("users.json", "r") as file:
-        users = json.load(file)
+    user = users_collection.find_one({
+        "username": username
+    })
 
-    for user in users:
+    if user and bcrypt.checkpw(
+        password.encode("utf-8"),
+        user["password"].encode("utf-8")
+    ):
 
-        if (
-            user["username"] == username
-            and user["password"] == password
-        ):
+        token = jwt.encode(
+            {
+                "username": username,
+                "exp": datetime.datetime.utcnow()
+                + datetime.timedelta(hours=12)
+            },
+            SECRET_KEY,
+            algorithm="HS256"
+        )
 
-            token = jwt.encode(
-                {
-                    "username": username,
-                    "exp": datetime.datetime.utcnow()
-                    + datetime.timedelta(hours=12)
-                },
-                SECRET_KEY,
-                algorithm="HS256"
-            )
-
-            return jsonify({
-                "token": token
-            })
+        return jsonify({
+            "token": token,
+            "username": username
+        })
 
     return jsonify({
         "error": "Invalid Credentials"
     }), 401
+    
+    
+
 
 if __name__ == "__main__":
     app.run(debug=True)
